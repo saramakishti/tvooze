@@ -1,6 +1,6 @@
 # TVOOZE APP
 
-Tvooze is a React Application that shows the latest available TV Shows in US. 
+Tvooze is a React Application that shows the latest available TV Shows in US.
 
 You can either star :star: your favorite shows and/or add them to custom categories :closed_book: !
 

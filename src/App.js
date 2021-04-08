@@ -1,11 +1,8 @@
 import React from "react";
+import { TVShowList } from "./components";
 
 const App = () => {
-  return (
-   <div>
-     Hello World
-    </div>
-  );
-}
+	return <TVShowList />;
+};
 
 export default App;
