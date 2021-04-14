@@ -1,10 +1,5 @@
 import React from "react";
 
-const validateValue = (value) => {
-	if (value !== null && value !== undefined) return value;
-	else return " - ";
-};
-
 const InformationCard = (props) => {
 	const { value, label } = props;
 	return (
@@ -18,15 +13,10 @@ const InformationCard = (props) => {
 const TVShowMiniCard = (props) => {
 	const { tvShow } = props;
 
-	const { name, genres, rating, premiered, network, url } = tvShow;
+	const { name, genres, rating, premiered, url } = tvShow;
 
 	return (
-		<div
-			style={{
-				border: "1px solid gray",
-				width: 250,
-				height: "100%",
-			}}>
+		<div>
 			<div
 				style={{
 					background: `url(${tvShow.image.medium})`,
