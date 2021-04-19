@@ -2,10 +2,8 @@ import { combineReducers } from "redux";
 import { ACTIONS } from "./actions";
 
 const initialState = {
+	loading: true,
 	data: null,
-	categories: {
-		favorites: [],
-	},
 };
 
 const TVShowReducer = (state = initialState, action) => {
@@ -13,6 +11,7 @@ const TVShowReducer = (state = initialState, action) => {
 		case ACTIONS.FETCH_DATA: {
 			return {
 				...state,
+				loading: false,
 				data: action.payload,
 			};
 		}
@@ -21,4 +20,17 @@ const TVShowReducer = (state = initialState, action) => {
 	}
 };
 
-export default combineReducers({ TVShowReducer });
+const CategoriesReducer = (state = { favorites: [] }, action) => {
+	switch (action.type) {
+		case ACTIONS.ADD_TO_FAVORITES: {
+			return {
+				...state,
+				favorites: [...state.favorites, action.payload],
+			};
+		}
+		default:
+			return state;
+	}
+};
+
+export default combineReducers({ TVShowReducer, CategoriesReducer });

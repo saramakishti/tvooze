@@ -1,41 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
+import { fetchData } from "../redux/actions";
 import TVShowMiniCard from "./TVShowMiniCard";
-import "../styles/landing.css";
+import "../styles/style.css";
 
-const TVShowList = ({ data }) => {
+const TVShowList = (props) => {
+	const { data, loading, fetchData } = props;
+
+	React.useEffect(() => {
+		fetchData();
+	}, []);
+
 	let innerContent;
 
-	if (!data) innerContent = <div>No Data Available!</div>;
+	if (!data && loading) innerContent = <div>No Data Available!</div>;
 	else
 		innerContent = (
 			<div className='landing-page-body'>
-				{data.map(({ show }) => {
-					return <TVShowMiniCard tvShow={show} />;
+				{data.map(({ show }, index) => {
+					return <TVShowMiniCard key={index} tvShow={show} />;
 				})}
 			</div>
 		);
 
-	return (
-		<div className='landing-page-container'>
-			<div className='landing-page-header'>
-				<h1>Welcome to TVOOZE!</h1>
-				<h1>
-					<a href='/'>All TV Shows</a>
-				</h1>
-				<h1>
-					<a href='/'>Categories</a>
-				</h1>
-			</div>
-			{innerContent}
-		</div>
-	);
+	return <div className=''>{innerContent}</div>;
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
 	return {
 		data: state.TVShowReducer.data,
+		loading: state.TVShowReducer.loading,
 	};
-}
+};
 
-export default connect(mapStateToProps, null)(TVShowList);
+export default connect(mapStateToProps, { fetchData })(TVShowList);

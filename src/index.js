@@ -1,19 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import reducers from "./redux/reducers";
 import thunk from "redux-thunk";
-import { fetchData } from "./redux/actions";
-import { TVShowList } from "./components";
+import { Home } from "./components";
+import "./styles/global.css";
 
 const store = createStore(reducers, applyMiddleware(thunk));
-store.dispatch(fetchData());
 
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<TVShowList />
+			<BrowserRouter>
+				<Home />
+			</BrowserRouter>
 		</Provider>
 	</React.StrictMode>,
 

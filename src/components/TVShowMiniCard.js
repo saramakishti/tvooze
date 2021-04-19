@@ -1,41 +1,52 @@
 import React from "react";
+import { addToFavorites } from "../redux/actions";
+import { validateValue } from "../helpers";
+import { connect } from "react-redux";
 
-const InformationCard = (props) => {
-	const { value, label } = props;
-	return (
-		<div>
-			{value}
-			<p style={{ fontWeight: "bold" }}>{label}</p>
-		</div>
-	);
+const ImageContainer = ({ image }) => {
+	return <img src={image} alt='image' width={200} />;
 };
 
 const TVShowMiniCard = (props) => {
-	const { tvShow } = props;
+	const { tvShow, addToFavorites, favorites } = props;
 
-	const { name, genres, rating, premiered, url } = tvShow;
+	const { name, genres, url } = tvShow;
+
+	const image = tvShow.image ? tvShow.image.medium : undefined;
+
+	const isAdded = favorites.find((item) => item.id === tvShow.id);
+
+	const handleChange = (tvShow) => () => {
+		addToFavorites(tvShow);
+	};
 
 	return (
-		<div>
-			<div
-				style={{
-					background: `url(${tvShow.image.medium})`,
-					backgroundRepeat: "no-repeat",
-					width: 400,
-					height: 200,
-				}}
-			/>
-			<div style={{ fontWeight: "bold" }}>{name}</div>
-			<div>
-				<InformationCard value={genres.join(", ")} label='Genres' />
-				<InformationCard value={rating.average} label='Rating' />
-				<InformationCard value={premiered} label='Year' />
+		<div className='card-container'>
+			<ImageContainer image={image} />
+			<div className='boldText'>{name}</div>
+			<div className='card-inner-content'>
+				<div>{validateValue(genres.join(", "))}</div>
 				<a href={url} rel='noreferrer' target='_blank'>
-					Redirect
+					Redirect to TVMaze &#128256;
 				</a>
+				<button className='action-button' onClick={() => {}}>
+					View Details
+				</button>
+				<button
+					className='action-button'
+					onClick={handleChange(tvShow)}
+					disabled={isAdded}>
+					{isAdded ? "Added to Favorites" : "Add to Favorites"}
+				</button>
 			</div>
 		</div>
 	);
 };
 
-export default TVShowMiniCard;
+const mapStateToProps = (state) => {
+	return {
+		favorites: state.CategoriesReducer.favorites,
+	};
+};
+
+export default connect(mapStateToProps, { addToFavorites })(TVShowMiniCard);
