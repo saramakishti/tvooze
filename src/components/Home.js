@@ -1,19 +1,19 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { TVShowList, CategoriesList, Header } from ".";
 
 const Home = (props) => {
 	return (
 		<div>
 			<Header />
-			<main>
-				<Route path='/'>
+			<Switch>
+				<Route exact path='/'>
 					<TVShowList />
 				</Route>
 				<Route path='/categories'>
 					<CategoriesList />
 				</Route>
-			</main>
+			</Switch>
 		</div>
 	);
 };

@@ -41,3 +41,7 @@
 	font-weight: 600;
 	margin: 10px;
 }
+.action-button:disabled {
+	cursor: not-allowed;
+	background-color: gray;
+}

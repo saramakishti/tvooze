@@ -9,7 +9,7 @@ const TVShowList = (props) => {
 
 	React.useEffect(() => {
 		fetchData();
-	}, []);
+	});
 
 	let innerContent;
 

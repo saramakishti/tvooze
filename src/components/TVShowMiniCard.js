@@ -1,16 +1,20 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import { addToFavorites } from "../redux/actions";
 import { validateValue } from "../helpers";
 import { connect } from "react-redux";
 
 const ImageContainer = ({ image }) => {
-	return <img src={image} alt='image' width={200} />;
+	return <img src={image} alt='' width={200} />;
 };
 
 const TVShowMiniCard = (props) => {
-	const { tvShow, addToFavorites, favorites } = props;
+	const { tvShow, disableActions, addToFavorites, favorites } = props;
 
 	const { name, genres, url } = tvShow;
+
+	const history = useHistory();
 
 	const image = tvShow.image ? tvShow.image.medium : undefined;
 
@@ -18,6 +22,11 @@ const TVShowMiniCard = (props) => {
 
 	const handleChange = (tvShow) => () => {
 		addToFavorites(tvShow);
+	};
+
+	const onRedirect = (tvShow) => (e) => {
+		const id = tvShow.id;
+		history.push(`/${id}`);
 	};
 
 	return (
@@ -29,15 +38,19 @@ const TVShowMiniCard = (props) => {
 				<a href={url} rel='noreferrer' target='_blank'>
 					Redirect to TVMaze &#128256;
 				</a>
-				<button className='action-button' onClick={() => {}}>
-					View Details
-				</button>
-				<button
-					className='action-button'
-					onClick={handleChange(tvShow)}
-					disabled={isAdded}>
-					{isAdded ? "Added to Favorites" : "Add to Favorites"}
-				</button>
+				{!disableActions && (
+					<div>
+						<button className='action-button' onClick={onRedirect(tvShow)}>
+							View Details
+						</button>
+						<button
+							className='action-button'
+							onClick={handleChange(tvShow)}
+							disabled={isAdded}>
+							{isAdded ? "Added to Favorites" : "Add to Favorites"}
+						</button>
+					</div>
+				)}
 			</div>
 		</div>
 	);
@@ -47,6 +60,16 @@ const mapStateToProps = (state) => {
 	return {
 		favorites: state.CategoriesReducer.favorites,
 	};
+};
+
+TVShowMiniCard.defaultProps = {
+	tvShow: {},
+	disableActions: false,
+};
+
+TVShowMiniCard.propTypes = {
+	disableActions: PropTypes.bool,
+	tvShow: PropTypes.object,
 };
 
 export default connect(mapStateToProps, { addToFavorites })(TVShowMiniCard);

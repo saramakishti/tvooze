@@ -20,7 +20,10 @@ const TVShowReducer = (state = initialState, action) => {
 	}
 };
 
-const CategoriesReducer = (state = { favorites: [] }, action) => {
+const CategoriesReducer = (
+	state = { favorites: [], fun: [], horror: [] },
+	action
+) => {
 	switch (action.type) {
 		case ACTIONS.ADD_TO_FAVORITES: {
 			return {
